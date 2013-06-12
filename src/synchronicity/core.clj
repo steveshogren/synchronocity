@@ -13,17 +13,19 @@
     row
     currentrow))
 
-(= {:k "pass" :val "new" :v 2}  
-     (merge-row {:k "pass" :val "new" :v 2}
-                {:k "pass" :val "old" :v 1}))
+(defn merge-row-date [row currentrow]
+  (if (> (:date row) (:date currentrow))
+    row
+    currentrow))
 
-(= {:k "pass" :val "new" :v 2}  
-     (merge-row {:k "pass" :val "old" :v 1}
-                {:k "pass" :val "new" :v 2}))
+(defn now [] (java.util.Date.))
+(defn after [d1 d2] (.after d1 d2))
 
-(= {:k "pass" :val "old" :v 2}  
-     (merge-row {:k "pass" :val "new" :v 2}
-                {:k "pass" :val "old" :v 2}))
+(with-redefs [after (fn [x y] true)]
+  (let [f (now)
+         s (now)]
+     (after f s)))
+
 
 
 
